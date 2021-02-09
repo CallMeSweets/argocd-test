@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: message-service-deployment
+  labels:
+    app: message-service
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      app: message-service
+  template:
+    metadata:
+      labels:
+        app: message-service
+    spec:
+      containers:
+      - name: message-service
+        image: grz3lak1997/message-service:2
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+                
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: message-service-service
+  labels:
+    app: message-service
+spec:
+  selector:
+    app: message-service
+  ports:
+  - protocol: TCP
+    name: http-traffic
+    port: 8080
+    targetPort: 8080                                                
